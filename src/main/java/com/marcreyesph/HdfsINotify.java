@@ -67,6 +67,7 @@ public class HdfsINotify {
 					System.out.println(" eventType = " + renameEvent.getEventType());
 					System.out.println(" timeStamp = " + renameEvent.getTimestamp());
 				default:
+					System.out.println(" No events were watched in this period.");
 					break;
 				}
 			}
