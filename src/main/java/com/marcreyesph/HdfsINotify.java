@@ -54,18 +54,21 @@ public class HdfsINotify {
 					AppendEvent appendEvent = (AppendEvent) event;
 					System.out.println(" path = " + appendEvent.getPath());
 					System.out.println(" eventType = " + appendEvent.getEventType());
+					break;
 				case CLOSE:
 					CloseEvent closeEvent = (CloseEvent) event;
 					System.out.println(" path = " + closeEvent.getPath());
 					System.out.println(" eventType = " + closeEvent.getEventType());
 					System.out.println(" timeStamp = " + closeEvent.getTimestamp());
 					System.out.println(" fileSize = " + closeEvent.getFileSize());
+					break;
 				case RENAME:
 					RenameEvent renameEvent = (RenameEvent) event;
 					System.out.println(" sourcePath = " + renameEvent.getDstPath());
 					System.out.println(" destinationPath = " + renameEvent.getSrcPath());
 					System.out.println(" eventType = " + renameEvent.getEventType());
 					System.out.println(" timeStamp = " + renameEvent.getTimestamp());
+					break;
 				default:
 					System.out.println(" No events were watched in this period.");
 					break;
