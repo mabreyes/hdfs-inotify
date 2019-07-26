@@ -1,29 +1,25 @@
-# hdfs-inotify-example
+# hdfs-inotify
 
-HDFS iNotify example
-
-See http://www.slideshare.net/Hadoop_Summit/keep-me-in-the-loop-inotify-in-hdfs for info on iNotify, 
-particularly slide #16
+See [this link](http://www.slideshare.net/Hadoop_Summit/keep-me-in-the-loop-inotify-in-hdfs) for info on iNotify, 
+particularly slide #16. 
 
 You must run this tool as the hdfs user.
 
-    Usage: $ java -jar hdfs-inotify-example-uber.jar <HDFS URI>  [<TxId>]
+    $ jar hdfs-inotify-example-uber.jar <HDFS URI> <TxId>
 
-This is a quick and dirty example.  If you omit the TxId arg,like this:
+This is a quick and dirty example.  If you omit the ```TxId``` arg, like this:
 
-    $ sudo -u hdfs java -jar hdfs-inotify-example-uber.jar hdfs://brooklyn.onefoursix.com:8020
+    $ hadoop jar hdfs-inotify.jar hdfs://hadoop-node-cluster:<port_number>
     
-... the output might be quite verbose, as you will get all tx's
+The output might be quite verbose, as you will get all ```TxId``` information. 
 
-So you might want to start with a large TxId and then work backwards if you don't get any events.
+So you might want to start with a large TxId and then work backwards if you don't get any events. If the TxId is larger than the number of tx's then you will simply get no data back)
 
-(If the TxId is larger than the number of tx's then you will simply get no data back)
+For my test on a new HDFS I will start will a ```TxId``` of 0:
 
-For my test on a new HDFS I will start will a TxId of 0:
+    $ hadoop jar hdfs-inotify-example.jar hdfs://emr-header-1.cluster-68492:9000 4196273872
 
-    $ sudo -u hdfs java -jar hdfs-inotify-example-uber.jar hdfs://brooklyn.onefoursix.com:8020 0
-
-I see output that ends like this:
+I see an output that ends like this:
 
     ...
     TxId = 351352
@@ -32,9 +28,9 @@ I see output that ends like this:
       owner = hdfs
       ctime = 1436585351213
 
-ctrl-c to kill the app
+```Ctrl+C``` to kill the app
 
-From that you can see the last TxId was 351352
+From that you can see the last ```TxId``` was ```351352```.
 
 You can then call the app like this to get all subsequent tx's:
 
@@ -42,7 +38,7 @@ You can then call the app like this to get all subsequent tx's:
 
 While that is still running, in another session, create a couple of files in HDFS, then delete one (without using -skipTrash) and delete the other with -skipTrash.
 
-You should see a couple of CREATE events, a RENAME and an UNLINK, like this:
+You should see a couple of ```CREATE``` , ```RENAME```, ```UNLINK```, ```APPEND```, and ```CLOSE``` like this:
     
     TxId = 351411
     event type = CREATE
@@ -77,4 +73,3 @@ You should see a couple of CREATE events, a RENAME and an UNLINK, like this:
     event type = UNLINK
       path = /user/mark/data107.txt
       timestamp = 1436586074079
-
