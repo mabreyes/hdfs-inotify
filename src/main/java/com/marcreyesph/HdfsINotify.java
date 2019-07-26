@@ -3,12 +3,16 @@ package com.marcreyesph;
 import java.io.IOException;
 import java.net.URI;
 
+import com.sun.jersey.json.impl.provider.entity.JSONArrayProvider;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hdfs.DFSInotifyEventInputStream;
 import org.apache.hadoop.hdfs.client.HdfsAdmin;
 import org.apache.hadoop.hdfs.inotify.Event;
 import org.apache.hadoop.hdfs.inotify.Event.CreateEvent;
 import org.apache.hadoop.hdfs.inotify.Event.UnlinkEvent;
+import org.apache.hadoop.hdfs.inotify.Event.AppendEvent;
+import org.apache.hadoop.hdfs.inotify.Event.CloseEvent;
+import org.apache.hadoop.hdfs.inotify.Event.RenameEvent;
 import org.apache.hadoop.hdfs.inotify.EventBatch;
 import org.apache.hadoop.hdfs.inotify.MissingEventsException;
 
@@ -44,12 +48,24 @@ public class HdfsINotify {
 				case UNLINK:
 					UnlinkEvent unlinkEvent = (UnlinkEvent) event;
 					System.out.println("  path = " + unlinkEvent.getPath());
-					System.out.println("  timestamp = " + unlinkEvent.getTimestamp());
+					System.out.println("  timeStamp = " + unlinkEvent.getTimestamp());
 					break;
-				
 				case APPEND:
+					AppendEvent appendEvent = (AppendEvent) event;
+					System.out.println(" path = " + appendEvent.getPath());
+					System.out.println(" eventType = " + appendEvent.getEventType());
 				case CLOSE:
+					CloseEvent closeEvent = (CloseEvent) event;
+					System.out.println(" path = " + closeEvent.getPath());
+					System.out.println(" eventType = " + closeEvent.getEventType());
+					System.out.println(" timeStamp = " + closeEvent.getTimestamp());
+					System.out.println(" fileSize = " + closeEvent.getFileSize());
 				case RENAME:
+					RenameEvent renameEvent = (RenameEvent) event;
+					System.out.println(" sourcePath = " + renameEvent.getDstPath());
+					System.out.println(" destinationPath = " + renameEvent.getSrcPath());
+					System.out.println(" eventType = " + renameEvent.getEventType());
+					System.out.println(" timeStamp = " + renameEvent.getTimestamp());
 				default:
 					break;
 				}
