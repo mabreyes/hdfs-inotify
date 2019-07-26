@@ -3,7 +3,6 @@ package com.marcreyesph;
 import java.io.IOException;
 import java.net.URI;
 
-import com.sun.jersey.json.impl.provider.entity.JSONArrayProvider;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hdfs.DFSInotifyEventInputStream;
 import org.apache.hadoop.hdfs.client.HdfsAdmin;
@@ -39,42 +38,41 @@ public class HdfsINotify {
 			for (Event event : batch.getEvents()) {
 				System.out.println("event type = " + event.getEventType());
 				switch (event.getEventType()) {
-				case CREATE:
-					CreateEvent createEvent = (CreateEvent) event;
-					System.out.println("  path = " + createEvent.getPath());
-					System.out.println("  owner = " + createEvent.getOwnerName());
-					System.out.println("  ctime = " + createEvent.getCtime());
-					break;
-				case UNLINK:
-					UnlinkEvent unlinkEvent = (UnlinkEvent) event;
-					System.out.println("  path = " + unlinkEvent.getPath());
-					System.out.println("  timeStamp = " + unlinkEvent.getTimestamp());
-					break;
-				case APPEND:
-					AppendEvent appendEvent = (AppendEvent) event;
-					System.out.println(" path = " + appendEvent.getPath());
-					System.out.println(" eventType = " + appendEvent.getEventType());
-					break;
-				case CLOSE:
-					CloseEvent closeEvent = (CloseEvent) event;
-					System.out.println(" path = " + closeEvent.getPath());
-					System.out.println(" eventType = " + closeEvent.getEventType());
-					System.out.println(" timeStamp = " + closeEvent.getTimestamp());
-					System.out.println(" fileSize = " + closeEvent.getFileSize());
-					break;
-				case RENAME:
-					RenameEvent renameEvent = (RenameEvent) event;
-					System.out.println(" sourcePath = " + renameEvent.getDstPath());
-					System.out.println(" destinationPath = " + renameEvent.getSrcPath());
-					System.out.println(" eventType = " + renameEvent.getEventType());
-					System.out.println(" timeStamp = " + renameEvent.getTimestamp());
-					break;
-				default:
-					System.out.println(" No events were watched in this period.");
-					break;
+					case CREATE:
+						CreateEvent createEvent = (CreateEvent) event;
+						System.out.println("  path = " + createEvent.getPath());
+						System.out.println("  owner = " + createEvent.getOwnerName());
+						System.out.println("  ctime = " + createEvent.getCtime());
+						break;
+					case UNLINK:
+						UnlinkEvent unlinkEvent = (UnlinkEvent) event;
+						System.out.println("  path = " + unlinkEvent.getPath());
+						System.out.println("  timeStamp = " + unlinkEvent.getTimestamp());
+						break;
+					case APPEND:
+						AppendEvent appendEvent = (AppendEvent) event;
+						System.out.println(" path = " + appendEvent.getPath());
+						System.out.println(" eventType = " + appendEvent.getEventType());
+						break;
+					case CLOSE:
+						CloseEvent closeEvent = (CloseEvent) event;
+						System.out.println(" path = " + closeEvent.getPath());
+						System.out.println(" eventType = " + closeEvent.getEventType());
+						System.out.println(" timeStamp = " + closeEvent.getTimestamp());
+						System.out.println(" fileSize = " + closeEvent.getFileSize());
+						break;
+					case RENAME:
+						RenameEvent renameEvent = (RenameEvent) event;
+						System.out.println(" sourcePath = " + renameEvent.getDstPath());
+						System.out.println(" destinationPath = " + renameEvent.getSrcPath());
+						System.out.println(" eventType = " + renameEvent.getEventType());
+						System.out.println(" timeStamp = " + renameEvent.getTimestamp());
+						break;
+					default:
+						System.out.println(" No file changes are being watched in this period.");
+						break;
 				}
 			}
 		}
 	}
 }
-
