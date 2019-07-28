@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS file_activity;
 
 CREATE TABLE IF NOT EXISTS file_activity (
-    fileChangeId serial PRIMARY KEY,
+    fileChangeId SERIAL PRIMARY KEY,
     transactionId INTEGER NOT NULL,
     eventType VARCHAR(100) NOT NULL,
     path VARCHAR(1000) NOT NULL,
