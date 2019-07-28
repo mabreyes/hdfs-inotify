@@ -2,6 +2,7 @@ package com.marcreyesph;
 
 import java.io.IOException;
 import java.net.URI;
+import java.sql.*;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hdfs.DFSInotifyEventInputStream;
@@ -74,5 +75,63 @@ public class HdfsINotify {
 				}
 			}
 		}
+	}
+
+	private final String DB_URL = "postgres://tpivhqsbtgcmny:92cfbdf76ca77493c3fdbfd3b45c457e89b8fd4c102dc2870d994ec85dc580b9@ec2-54-243-208-234.compute-1.amazonaws.com:5432/d3m9eobk6mkr7h";
+	private final String DB_USER = "tpivhqsbtgcmny";
+	private String DB_PASSWORD = "92cfbdf76ca77493c3fdbfd3b45c457e89b8fd4c102dc2870d994ec85dc580b9";
+
+	/**
+	 * Connect to the PostgreSQL database
+	 *
+	 * @return a Connection object
+	 */
+	public Connection connect() throws SQLException {
+		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+	}
+
+	public long insertFileActivity(FileActivity fileActivity) {
+		String SQL = "INSERT INTO file_activity(transactionId, " +
+				"eventType, " +
+				"path, " +
+				"ownerName, " +
+				"cTime, " +
+				"timeStamp, " +
+				"fileSize, " +
+				"dstPath, " +
+				"srcPath) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		long fileChangeId = 0;
+
+		try (Connection conn = connect();
+			 PreparedStatement pstmt = conn.prepareStatement(SQL,
+					 Statement.RETURN_GENERATED_KEYS)) {
+
+			pstmt.setString(1, fileActivity.getTransactionId());
+			pstmt.setString(2, fileActivity.getEventType());
+			pstmt.setString(3, fileActivity.getPath());
+			pstmt.setString(4, fileActivity.getOwnerName());
+			pstmt.setString(5, fileActivity.getcTime());
+			pstmt.setString(6, fileActivity.getTimeStamp());
+			pstmt.setString(7, fileActivity.getFileSize());
+			pstmt.setString(8, fileActivity.getDstPath());
+			pstmt.setString(9, fileActivity.getSrcPath());
+
+			int affectedRows = pstmt.executeUpdate();
+			// check the affected rows
+			if (affectedRows > 0) {
+				// get the ID back
+				try (ResultSet rs = pstmt.getGeneratedKeys()) {
+					if (rs.next()) {
+						fileChangeId = rs.getLong(1);
+					}
+				} catch (SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+		return fileChangeId;
 	}
 }
