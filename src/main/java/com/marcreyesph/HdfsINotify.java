@@ -1,5 +1,6 @@
 package com.marcreyesph;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.*;
@@ -44,16 +45,64 @@ public class HdfsINotify {
 						System.out.println("  path = " + createEvent.getPath());
 						System.out.println("  owner = " + createEvent.getOwnerName());
 						System.out.println("  ctime = " + createEvent.getCtime());
+
+						HdfsINotify hdfsINotify = new HdfsINotify();
+						FileActivity fileActivity = new FileActivity(
+								Long.toString(batch.getTxid()),
+								String.valueOf(event.getEventType()),
+								createEvent.getPath(),
+								createEvent.getOwnerName(),
+								Long.toString(createEvent.getCtime()),
+								null,
+								null,
+								null,
+								null
+						);
+
+						long fileChangeId = hdfsINotify.insertFileActivity(fileActivity);
+						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId));
 						break;
 					case UNLINK:
 						UnlinkEvent unlinkEvent = (UnlinkEvent) event;
 						System.out.println("  path = " + unlinkEvent.getPath());
 						System.out.println("  timeStamp = " + unlinkEvent.getTimestamp());
+
+						HdfsINotify hdfsINotify1 = new HdfsINotify();
+						FileActivity fileActivity1 = new FileActivity(
+								Long.toString(batch.getTxid()),
+								String.valueOf(event.getEventType()),
+								unlinkEvent.getPath(),
+								null,
+								null,
+								Long.toString(unlinkEvent.getTimestamp()),
+								null,
+								null,
+								null
+						);
+
+						long fileChangeId1 = hdfsINotify1.insertFileActivity(fileActivity1);
+						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId1));
 						break;
 					case APPEND:
 						AppendEvent appendEvent = (AppendEvent) event;
 						System.out.println(" path = " + appendEvent.getPath());
 						System.out.println(" eventType = " + appendEvent.getEventType());
+
+						HdfsINotify hdfsINotify2 = new HdfsINotify();
+						FileActivity fileActivity2 = new FileActivity(
+								Long.toString(batch.getTxid()),
+								String.valueOf(event.getEventType()),
+								appendEvent.getPath(),
+								null,
+								null,
+								null,
+								null,
+								null,
+								null
+						);
+
+						long fileChangeId2 = hdfsINotify2.insertFileActivity(fileActivity2);
+						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId2));
 						break;
 					case CLOSE:
 						CloseEvent closeEvent = (CloseEvent) event;
@@ -61,6 +110,22 @@ public class HdfsINotify {
 						System.out.println(" eventType = " + closeEvent.getEventType());
 						System.out.println(" timeStamp = " + closeEvent.getTimestamp());
 						System.out.println(" fileSize = " + closeEvent.getFileSize());
+
+						HdfsINotify hdfsINotify3 = new HdfsINotify();
+						FileActivity fileActivity3 = new FileActivity(
+								Long.toString(batch.getTxid()),
+								String.valueOf(event.getEventType()),
+								closeEvent.getPath(),
+								null,
+								null,
+								Long.toString(closeEvent.getTimestamp()),
+								Long.toString(closeEvent.getFileSize()),
+								null,
+								null
+						);
+
+						long fileChangeId3 = hdfsINotify3.insertFileActivity(fileActivity3);
+						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId3));
 						break;
 					case RENAME:
 						RenameEvent renameEvent = (RenameEvent) event;
@@ -68,9 +133,41 @@ public class HdfsINotify {
 						System.out.println(" destinationPath = " + renameEvent.getSrcPath());
 						System.out.println(" eventType = " + renameEvent.getEventType());
 						System.out.println(" timeStamp = " + renameEvent.getTimestamp());
+
+						HdfsINotify hdfsINotify4 = new HdfsINotify();
+						FileActivity fileActivity4 = new FileActivity(
+								Long.toString(batch.getTxid()),
+								String.valueOf(event.getEventType()),
+								null,
+								null,
+								null,
+								Long.toString(renameEvent.getTimestamp()),
+								null,
+								renameEvent.getDstPath(),
+								renameEvent.getSrcPath()
+						);
+
+						long fileChangeId4 = hdfsINotify4.insertFileActivity(fileActivity4);
+						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId4));
 						break;
 					default:
 						System.out.println(" No file changes are being watched in this period.");
+
+						HdfsINotify hdfsINotify5 = new HdfsINotify();
+						FileActivity fileActivity5 = new FileActivity(
+								Long.toString(batch.getTxid()),
+								String.valueOf(event.getEventType()),
+								null,
+								null,
+								null,
+								null,
+								null,
+								null,
+								null
+						);
+
+						long fileChangeId5 = hdfsINotify5.insertFileActivity(fileActivity5);
+						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId5));
 						break;
 				}
 			}
@@ -79,7 +176,7 @@ public class HdfsINotify {
 
 	private final String DB_URL = "postgres://tpivhqsbtgcmny:92cfbdf76ca77493c3fdbfd3b45c457e89b8fd4c102dc2870d994ec85dc580b9@ec2-54-243-208-234.compute-1.amazonaws.com:5432/d3m9eobk6mkr7h";
 	private final String DB_USER = "tpivhqsbtgcmny";
-	private String DB_PASSWORD = "92cfbdf76ca77493c3fdbfd3b45c457e89b8fd4c102dc2870d994ec85dc580b9";
+	private final String DB_PASSWORD = "92cfbdf76ca77493c3fdbfd3b45c457e89b8fd4c102dc2870d994ec85dc580b9";
 
 	/**
 	 * Connect to the PostgreSQL database
