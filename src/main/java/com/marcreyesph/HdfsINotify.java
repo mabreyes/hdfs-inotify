@@ -41,10 +41,6 @@ public class HdfsINotify {
 				switch (event.getEventType()) {
 					case CREATE:
 						CreateEvent createEvent = (CreateEvent) event;
-						System.out.println("  path = " + createEvent.getPath());
-						System.out.println("  owner = " + createEvent.getOwnerName());
-						System.out.println("  ctime = " + createEvent.getCtime());
-
 						HdfsINotify hdfsINotify = new HdfsINotify();
 						FileActivity fileActivity = new FileActivity(
 								Long.toString(batch.getTxid()),
@@ -60,12 +56,13 @@ public class HdfsINotify {
 
 						long fileChangeId = hdfsINotify.insertFileActivity(fileActivity);
 						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId));
+
+						System.out.println("  path = " + createEvent.getPath());
+						System.out.println("  owner = " + createEvent.getOwnerName());
+						System.out.println("  ctime = " + createEvent.getCtime());
 						break;
 					case UNLINK:
 						UnlinkEvent unlinkEvent = (UnlinkEvent) event;
-						System.out.println("  path = " + unlinkEvent.getPath());
-						System.out.println("  timeStamp = " + unlinkEvent.getTimestamp());
-
 						HdfsINotify hdfsINotify1 = new HdfsINotify();
 						FileActivity fileActivity1 = new FileActivity(
 								Long.toString(batch.getTxid()),
@@ -81,12 +78,12 @@ public class HdfsINotify {
 
 						long fileChangeId1 = hdfsINotify1.insertFileActivity(fileActivity1);
 						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId1));
+
+						System.out.println("  path = " + unlinkEvent.getPath());
+						System.out.println("  timeStamp = " + unlinkEvent.getTimestamp());
 						break;
 					case APPEND:
 						AppendEvent appendEvent = (AppendEvent) event;
-						System.out.println(" path = " + appendEvent.getPath());
-						System.out.println(" eventType = " + appendEvent.getEventType());
-
 						HdfsINotify hdfsINotify2 = new HdfsINotify();
 						FileActivity fileActivity2 = new FileActivity(
 								Long.toString(batch.getTxid()),
@@ -102,14 +99,12 @@ public class HdfsINotify {
 
 						long fileChangeId2 = hdfsINotify2.insertFileActivity(fileActivity2);
 						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId2));
+
+						System.out.println(" path = " + appendEvent.getPath());
+						System.out.println(" eventType = " + appendEvent.getEventType());
 						break;
 					case CLOSE:
 						CloseEvent closeEvent = (CloseEvent) event;
-						System.out.println(" path = " + closeEvent.getPath());
-						System.out.println(" eventType = " + closeEvent.getEventType());
-						System.out.println(" timeStamp = " + closeEvent.getTimestamp());
-						System.out.println(" fileSize = " + closeEvent.getFileSize());
-
 						HdfsINotify hdfsINotify3 = new HdfsINotify();
 						FileActivity fileActivity3 = new FileActivity(
 								Long.toString(batch.getTxid()),
@@ -125,14 +120,14 @@ public class HdfsINotify {
 
 						long fileChangeId3 = hdfsINotify3.insertFileActivity(fileActivity3);
 						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId3));
+
+						System.out.println(" path = " + closeEvent.getPath());
+						System.out.println(" eventType = " + closeEvent.getEventType());
+						System.out.println(" timeStamp = " + closeEvent.getTimestamp());
+						System.out.println(" fileSize = " + closeEvent.getFileSize());
 						break;
 					case RENAME:
 						RenameEvent renameEvent = (RenameEvent) event;
-						System.out.println(" sourcePath = " + renameEvent.getDstPath());
-						System.out.println(" destinationPath = " + renameEvent.getSrcPath());
-						System.out.println(" eventType = " + renameEvent.getEventType());
-						System.out.println(" timeStamp = " + renameEvent.getTimestamp());
-
 						HdfsINotify hdfsINotify4 = new HdfsINotify();
 						FileActivity fileActivity4 = new FileActivity(
 								Long.toString(batch.getTxid()),
@@ -148,10 +143,13 @@ public class HdfsINotify {
 
 						long fileChangeId4 = hdfsINotify4.insertFileActivity(fileActivity4);
 						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId4));
+
+						System.out.println(" sourcePath = " + renameEvent.getDstPath());
+						System.out.println(" destinationPath = " + renameEvent.getSrcPath());
+						System.out.println(" eventType = " + renameEvent.getEventType());
+						System.out.println(" timeStamp = " + renameEvent.getTimestamp());
 						break;
 					default:
-						System.out.println(" No file changes are being watched in this period.");
-
 						HdfsINotify hdfsINotify5 = new HdfsINotify();
 						FileActivity fileActivity5 = new FileActivity(
 								Long.toString(batch.getTxid()),
@@ -167,6 +165,8 @@ public class HdfsINotify {
 
 						long fileChangeId5 = hdfsINotify5.insertFileActivity(fileActivity5);
 						System.out.println("New file activity added with fileChangeId: " + Long.toString(fileChangeId5));
+
+						System.out.println(" No file changes are being watched in this period.");
 						break;
 				}
 			}
