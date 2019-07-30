@@ -17,7 +17,7 @@ So you might want to start with a large TxId and then work backwards if you don'
 
 For my test on a new HDFS I will start will a ```TxId``` of 0:
 
-    $ hadoop jar hdfs-inotify-example.jar hdfs://emr-header-1.cluster-68492:9000 4196273872
+    $ hadoop jar hdfs-inotify-example.jar hdfs://emr-header-1.cluster-68492:9000 0
 
 I see an output that ends like this:
 
