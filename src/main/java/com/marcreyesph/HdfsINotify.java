@@ -183,12 +183,22 @@ public class HdfsINotify {
 	 * @return a Connection object
 	 */
 	public Connection connect() throws SQLException {
-		try {
-			Class.forName("org.postgresql.Driver");
+		/*try {
+			Class.forName("org.postgresql.Driver").newInstance();
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			return conn;
 		} catch(ClassNotFoundException e) {
-			System.out.println("Couldn't find psql driver");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
 		}
-		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+		Class.forName("org.postgresql.Driver").newInstance();*/
+		Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+		return conn;
 	}
 
 	public long insertFileActivity(FileActivity fileActivity) {
