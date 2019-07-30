@@ -173,7 +173,7 @@ public class HdfsINotify {
 		}
 	}
 
-	private final String DB_URL = "jdbc:postgresql://tpivhqsbtgcmny:92cfbdf76ca77493c3fdbfd3b45c457e89b8fd4c102dc2870d994ec85dc580b9@ec2-54-243-208-234.compute-1.amazonaws.com:5432/d3m9eobk6mkr7h";
+	private final String DB_URL = "dbc:postgresql://ec2-54-243-208-234.compute-1.amazonaws.com:5432/d3m9eobk6mkr7h";
 	private final String DB_USER = "tpivhqsbtgcmny";
 	private final String DB_PASSWORD = "92cfbdf76ca77493c3fdbfd3b45c457e89b8fd4c102dc2870d994ec85dc580b9";
 
