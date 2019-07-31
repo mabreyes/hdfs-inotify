@@ -36,7 +36,7 @@ public class FileToCsv {
 
         DFSInotifyEventInputStream eventStream = admin.getInotifyEventStream(lastReadTxid);
 
-        File file = new File("./file_changes");
+        File file = new File("./file_changes.csv");
 
         try {
             FileWriter outputFile = new FileWriter(file);
@@ -139,9 +139,9 @@ public class FileToCsv {
                                                     null });
                             break;
                     }
-                    writer.writeAll(data);
-                    writer.close();
                 }
+                writer.writeAll(data);
+                writer.close();
             }
         }
         catch (IOException e) {
