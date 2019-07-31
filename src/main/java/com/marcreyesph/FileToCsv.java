@@ -140,8 +140,16 @@ public class FileToCsv {
                             break;
                     }
                 }
-                writer.writeAll(data);
-                writer.close();
+                Runtime.getRuntime().addShutdownHook(new Thread() {
+                    public void run() {
+                        try {
+                            writer.writeAll(data);
+                            writer.close(); }
+                        catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         }
         catch (IOException e) {
