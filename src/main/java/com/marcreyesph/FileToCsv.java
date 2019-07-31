@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.opencsv.CSVWriter;
-import org.apache.avro.generic.GenericData;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hdfs.DFSInotifyEventInputStream;
 import org.apache.hadoop.hdfs.client.HdfsAdmin;
