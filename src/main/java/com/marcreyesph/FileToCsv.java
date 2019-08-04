@@ -43,7 +43,7 @@ public class FileToCsv {
             final CSVWriter writer = new CSVWriter(outputFile);
 
             final List<String[]> data = new ArrayList<String[]>();
-            data.add(new String[] { "transactionId","eventType","path","ownerName","cTime","timeStamp","fileSize","dstPath","srcPath"});
+            // data.add(new String[] { "transactionId","eventType","path","ownerName","cTime","timeStamp","fileSize","dstPath","srcPath"});
 
             while (true) {
                 EventBatch batch = eventStream.take();
