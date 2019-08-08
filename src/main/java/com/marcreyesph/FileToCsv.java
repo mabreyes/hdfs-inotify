@@ -110,6 +110,22 @@ public class FileToCsv {
                                                     null,
                                                     null });
                             break;
+                        case OPEN:
+                            OpenEvent openEvent = (OpenEvent) event;
+                            System.out.println("\tpath = " + openEvent.getPath());
+                            System.out.println("\teventType = " + openEvent.getEventType());
+                            System.out.println("\ttimeStamp = " + openEvent.getTimestamp());
+                            System.out.println("\tfileSize = " + openEvent.getFileSize());
+                            data.add(new String[] { Long.toString(batch.getTxid()),
+                                                    String.valueOf(event.getEventType()),
+                                                    openEvent.getPath(),
+                                                    null,
+                                                    null,
+                                                    Long.toString(closeEvent.getTimestamp()),
+                                                    Long.toString(closeEvent.getFileSize()),
+                                                    null,
+                                                    null});
+                            break;
                         case RENAME:
                             RenameEvent renameEvent = (RenameEvent) event;
                             System.out.println("\tsourcePath = " + renameEvent.getDstPath());
